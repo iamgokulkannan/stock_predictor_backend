@@ -5,6 +5,8 @@ import time
 import os
 
 TOKEN_FILE = "access_token.txt"
+FYERS_AUTH_URL = AUTH_CONFIG["AUTH_URL"]
+FYERS_TOKEN_URL = AUTH_CONFIG["TOKEN_URL"]
 
 
 def save_token(token):
@@ -33,25 +35,26 @@ def generate_token():
     # Hit Fyers API login endpoint (headless browser or official automation)
     response = requests.post(
         "https://api.fyers.in/api/v2/generate-authcode?client_id=YOUR_APP_ID&redirect_uri=YOUR_CALLBACK_URL&response_type=code&state=sample", json=payload, headers=headers)
-    if response.status_code == 200 and 'auth_code' in response.json():
-        auth_code = response.json()['auth_code']
-        print("[INFO] Auth Code:", auth_code)
+    if response.status_code != 200 or 'auth_code' not in response.json():
+        raise Exception(
+            f"Auth code request failed: {response.status_code}, {response.text}")
 
-        # Exchange auth code for access token
-        token_payload = {
-            "grant_type": "authorization_code",
-            "app_id": AUTH_CONFIG["APP_ID"],
-            "secret_id": AUTH_CONFIG["APP_SECRET"],
-            "code": auth_code,
-        }
-        token_response = requests.post(
-            "https://api.fyers.in/api/v2/token", json=token_payload)
-        if token_response.status_code == 200 and 'access_token' in token_response.json():
-            token = token_response.json()["access_token"]
-            save_token(token)
-            print("[SUCCESS] Token generated and saved!")
-            return token
-        else:
-            raise Exception("Token exchange failed: " + token_response.text)
+    auth_code = response.json()['auth_code']
+    print("[INFO] Auth Code:", auth_code)
+
+    # Exchange auth code for access token
+    token_payload = {
+        "grant_type": "authorization_code",
+        "app_id": AUTH_CONFIG["APP_ID"],
+        "secret_id": AUTH_CONFIG["APP_SECRET"],
+        "code": auth_code,
+    }
+    token_response = requests.post(
+        "https://api.fyers.in/api/v2/token", json=token_payload)
+    if token_response.status_code == 200 and 'access_token' in token_response.json():
+        token = token_response.json()["access_token"]
+        save_token(token)
+        print("[SUCCESS] Token generated and saved!")
+        return token
     else:
-        raise Exception("Auth code failed: " + response.text)
+        raise Exception("Token exchange failed: " + token_response.text)
