@@ -21,8 +21,10 @@ uvicorn app.main:app --reload
 
 ---
 
+<pre>
 ## 📁 Project Structure
 
+```
 .
 ├── app  
 │   ├── __pycache__/  
@@ -40,8 +42,9 @@ uvicorn app.main:app --reload
 │   └── yf_down_data.py           # Downloads data using yFinance  
 ├── readme.md                     # This file  
 └── requirements.txt              # Python dependencies
+```
+</pre>
 
----
 
 ## 🔐 Environment Setup
 
