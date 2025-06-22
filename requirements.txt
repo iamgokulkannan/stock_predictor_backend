@@ -1,0 +1,13 @@
+aiofiles
+fastapi
+fyers-apiv2
+jinja2
+joblib
+numpy
+pandas
+python-dotenv
+python-multipart
+scikit-learn
+tensorflow
+uvicorn
+yfinance
