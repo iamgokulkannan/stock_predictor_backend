@@ -20,7 +20,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY if OPENAI_API_KEY else None
 
 # === Load ML model & scaler ===
-model = load_model("lstm_model")
+model = load_model("lstm_model.keras")
 scaler = joblib.load("scaler.save")
 analyzer = SentimentIntensityAnalyzer()
 

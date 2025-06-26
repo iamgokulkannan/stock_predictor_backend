@@ -3,7 +3,7 @@ fastapi
 fyers-apiv2
 jinja2
 joblib
-numpy
+numpy==1.24.4
 pandas
 python-dotenv
 python-multipart
@@ -14,3 +14,12 @@ yfinance
 ta 
 pandas-ta
 vaderSentiment
+websockets==11.0.3
+yliveticker
+yflive
+yfinance
+openai
+setuptools
+pandas_ta==0.3.14b0
+tensorflow
+matplotlib
